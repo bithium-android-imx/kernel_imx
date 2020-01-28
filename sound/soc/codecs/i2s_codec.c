@@ -1,7 +1,8 @@
 /*
  * i2s_codec.c  --  Generic I2S ALSA SoC Audio driver
  *
- * Copyright 2010-2011 Freescale Semiconductor, Inc. All Rights Reserved.
+ * Copyright 2020-2011 Freescale Semiconductor, Inc. All Rights Reserved.
+ * Copyright 2020 Bithium S.A. All Rights Reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -183,9 +184,9 @@ MODULE_DEVICE_TABLE(of, i2s_codec_dt_ids);
 
 static struct platform_driver i2s_codec_codec_driver = {
    .driver = {
-         .name = "i2s_codec",
-		   .of_match_table = i2s_codec_dt_ids,
-         },
+      .name = "i2s_codec",
+      .of_match_table = i2s_codec_dt_ids,
+   },
    .probe = i2s_codec_codec_probe,
    .remove = i2s_codec_codec_remove,
 };
@@ -193,7 +194,6 @@ static struct platform_driver i2s_codec_codec_driver = {
 module_platform_driver(i2s_codec_codec_driver);
 
 MODULE_DESCRIPTION("Generic I2S ALSA SoC Codec Driver");
-MODULE_AUTHOR("Zeng Zhaoming <zengzm.kernel@gmail.com>");
+MODULE_AUTHOR("Alexandre Sousa <alexandre.sousa@bithium.com>");
 MODULE_LICENSE("GPL");
 MODULE_ALIAS("platform:i2s_codec");
-

@@ -1,6 +1,7 @@
 /*
  * Copyright 2012 Freescale Semiconductor, Inc.
  * Copyright 2012 Linaro Ltd.
+ * Copyright 2020 Bithium S.A. All Rights Reserved.
  *
  * The code contained herein is licensed under the GNU General Public
  * License. You may obtain a copy of the GNU General Public License
@@ -172,7 +173,7 @@ static struct platform_driver imx_i2s_codec_driver = {
 };
 module_platform_driver(imx_i2s_codec_driver);
 
-MODULE_AUTHOR("Shawn Guo <shawn.guo@linaro.org>");
+MODULE_AUTHOR("Alexandre Sousa <alexandre.sousa@bithium.com>");
 MODULE_DESCRIPTION("Generic I2S ASoC machine driver");
 MODULE_LICENSE("GPL v2");
 MODULE_ALIAS("platform:imx-i2s_codec");
