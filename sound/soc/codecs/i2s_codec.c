@@ -122,19 +122,15 @@ static struct snd_soc_dai_driver i2s_codec_dai = {
       .stream_name = "Playback",
       .channels_min = 1,
       .channels_max = 2,
-      /*
-       * only support 8~48K + 96K,
-       * TODO modify hw_param to support more
-       */
-      .rates = SNDRV_PCM_RATE_8000_48000 | SNDRV_PCM_RATE_96000,
-      .formats = I2S_CODEC_FORMATS,
+      .rates = -1,
+      .formats = -1,
    },
    .capture = {
       .stream_name = "Capture",
       .channels_min = 1,
       .channels_max = 2,
-      .rates = SNDRV_PCM_RATE_8000_48000 | SNDRV_PCM_RATE_96000,
-      .formats = I2S_CODEC_FORMATS,
+      .rates = -1,
+      .formats = -1,
    },
    .ops = &i2s_codec_ops,
    .symmetric_rates = 1,
@@ -157,6 +153,26 @@ static int i2s_codec_codec_probe(struct platform_device *pdev)
    int ret;
 
    dev_info(dev, "i2s_codec probe start\n");
+
+   int rate = 0;
+   ret = of_property_read_u32(dev->of_node, "rate", &rate);
+   if(ret) {
+      dev_err(dev, "%s: read supported rate from device tree failed (%d)\n",
+              __func__, ret);
+      return ret;
+   }
+
+   i2s_codec_dai.capture.rates = i2s_codec_dai.playback.rates = rate;
+
+   int format = 0;
+   ret = of_property_read_u32(dev->of_node, "format", &format);
+   if(ret) {
+      dev_err(dev, "%s: read supported format from device tree failed (%d)\n",
+              __func__, ret);
+      return ret;
+   }
+
+   i2s_codec_dai.capture.formats = i2s_codec_dai.playback.formats = rate;
 
    ret = snd_soc_register_codec(dev, &i2s_codec_driver, &i2s_codec_dai, 1);
 
