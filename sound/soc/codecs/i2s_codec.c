@@ -75,7 +75,7 @@ static struct snd_soc_dai_driver i2s_codec_dai = {
       .rates = -1,
       .formats = -1,
    },
-   .ops = &i2s_codec_ops,
+   .ops = NULL, // &i2s_codec_ops,
    .symmetric_rates = 1,
 };
 
@@ -100,8 +100,7 @@ static int i2s_codec_codec_probe(struct platform_device *pdev)
    int rate = 0;
    ret = of_property_read_u32(dev->of_node, "rate", &rate);
    if(ret) {
-      dev_err(dev, "%s: read supported rate from device tree failed (%d)\n",
-              __func__, ret);
+      dev_err(dev, "%s: read supported rate from device tree failed (%d)\n", __func__, ret);
       return ret;
    }
 
@@ -110,18 +109,16 @@ static int i2s_codec_codec_probe(struct platform_device *pdev)
    int format = 0;
    ret = of_property_read_u32(dev->of_node, "format", &format);
    if(ret) {
-      dev_err(dev, "%s: read supported format from device tree failed (%d)\n",
-              __func__, ret);
+      dev_err(dev, "%s: read supported format from device tree failed (%d)\n", __func__, ret);
       return ret;
    }
 
-   i2s_codec_dai.capture.formats = i2s_codec_dai.playback.formats = rate;
+   i2s_codec_dai.capture.formats = i2s_codec_dai.playback.formats = format;
 
    ret = snd_soc_register_codec(dev, &i2s_codec_driver, &i2s_codec_dai, 1);
 
    if (ret) {
-      dev_err(dev, "%s: snd_soc_register_codec() failed (%d)\n",
-         __func__, ret);
+      dev_err(dev, "%s: snd_soc_register_codec() failed (%d)\n", __func__, ret);
       return ret;
    }
 
