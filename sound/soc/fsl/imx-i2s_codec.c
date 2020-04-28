@@ -29,8 +29,8 @@ struct imx_i2s_codec_data {
 };
 
 static const struct snd_soc_dapm_widget imx_i2s_codec_dapm_widgets[] = {
-	SND_SOC_DAPM_LINE("Line In Jack", NULL),
-	SND_SOC_DAPM_SPK("Line Out Jack", NULL),
+	SND_SOC_DAPM_MIC("Line In", NULL),
+	SND_SOC_DAPM_SPK("Line Out", NULL),
 };
 
 static int imx_i2s_codec_probe(struct platform_device *pdev)

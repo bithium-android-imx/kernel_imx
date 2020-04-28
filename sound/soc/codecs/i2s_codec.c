@@ -41,24 +41,6 @@ static const struct snd_soc_dapm_route i2s_codec_dapm_routes[] = {
    {"LINE_OUT", NULL, "Playback"},
 };
 
-static const struct snd_kcontrol_new i2s_codec_snd_controls[] = {
-   /* SOC_DOUBLE_S8_TLV with invert */
-   {
-      .iface = SNDRV_CTL_ELEM_IFACE_PCM,
-      .name = "PCM Playback Volume",
-      .access = SNDRV_CTL_ELEM_ACCESS_INACTIVE,
-      .info = NULL,
-      .get = NULL,
-      .put = NULL,
-   }
-};
-
-static const struct snd_soc_dai_ops i2s_codec_ops = {
-   .hw_params = NULL,
-   .digital_mute = NULL,
-   .set_fmt = NULL,
-};
-
 static struct snd_soc_dai_driver i2s_codec_dai = {
    .name = "i2s_codec",
    .playback = {
@@ -75,14 +57,14 @@ static struct snd_soc_dai_driver i2s_codec_dai = {
       .rates = -1,
       .formats = -1,
    },
-   .ops = NULL, // &i2s_codec_ops,
+   .ops = NULL,
    .symmetric_rates = 1,
 };
 
 static struct snd_soc_codec_driver i2s_codec_driver = {
    .component_driver = {
-      .controls         = i2s_codec_snd_controls,
-      .num_controls     = ARRAY_SIZE(i2s_codec_snd_controls),
+      .controls         = NULL,
+      .num_controls     = 0,
       .dapm_widgets     = i2s_codec_dapm_widgets,
       .num_dapm_widgets = ARRAY_SIZE(i2s_codec_dapm_widgets),
       .dapm_routes      = i2s_codec_dapm_routes,
