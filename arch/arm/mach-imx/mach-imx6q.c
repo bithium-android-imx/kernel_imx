@@ -180,6 +180,21 @@ static int ar8035_phy_fixup(struct phy_device *dev)
 
 #define PHY_ID_AR8035 0x004dd072
 
+static int vsc8531_phy_fixup(struct phy_device *dev)
+{
+	/*
+	 * Enable 125MHz clock from CLK_25M on the VSC8531.  This
+	 * is fed in to the IMX6 on the ENET_REF_CLK (V22) pad.
+	 */
+	phy_write(dev, 31, 0x0010);   // Enable access to the GPIO registers
+	phy_write(dev, 0x0D, 0xC000); // Enable CLKOUT @ 125MHz
+	phy_write(dev, 30, 0);        // Restore 'normal' register access.
+
+	return 0;
+}
+
+#define PHY_ID_VSC8531	0x00070570
+
 static void __init imx6q_enet_phy_init(void)
 {
 	if (IS_BUILTIN(CONFIG_PHYLIB)) {
@@ -191,6 +206,8 @@ static void __init imx6q_enet_phy_init(void)
 				ar8031_phy_fixup);
 		phy_register_fixup_for_uid(PHY_ID_AR8035, 0xffffffef,
 				ar8035_phy_fixup);
+		phy_register_fixup_for_uid(PHY_ID_VSC8531, 0xfffffff0,
+				vsc8531_phy_fixup);
 	}
 }
 
